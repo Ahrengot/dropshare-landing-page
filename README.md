@@ -26,19 +26,5 @@ Currently the supported code formats are:
 - .vue
 - .jsx
 
-'public.html',
-'public.javascript-source',
-'com.netscape.javascript-source',
-'public.css',
-'net.daringfireball.markdown'
-];
-
-// Files we want to consider code but that
-// are unrecognized by file_type
-var codeFileExtensions = [
-/.elm$/,
-/.vue$/,
-/.jsx$/
-
 ## Example of file landing page
 ![Example of pasted code](http://share.ahrengot.com/Js6cLnJKJ/Screen-Shot-2017-04-14-15-50-39.jpg)
