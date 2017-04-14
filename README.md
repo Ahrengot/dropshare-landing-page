@@ -13,6 +13,7 @@ Currently the supported code formats are:
 
 - Any pasted text
 - .txt
+- .html
 - .markdown
 - .md
 - .css
