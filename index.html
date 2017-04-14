@@ -92,7 +92,7 @@
           box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
         }
 
-        .imagePreview.hljs > pre {
+        .hljs > pre {
           margin: 0;
           padding: 1em;
           font-size: 0.83rem;
@@ -223,21 +223,50 @@
         tabReplace: '  ',
       });
 
-      $(document).ready(function() {
-        if ('__FILETYPE__' == 'public.plain-text') {
-          $.ajax({
-            url: '__PREVIEWURL__',
-            dataType: 'text',
-            success : function (data) {
-              var preview_block = $("div.imagePreview");
-              preview_block.css('text-align', 'left');
-              preview_block.text(data);
-              preview_block.html('<pre>'+preview_block.html()+'</pre>');
-              hljs.highlightBlock(preview_block[0]);
-            }
-          })
+      var codeFileTypes = [
+        'public.plain-text',
+        'public.html',
+        'public.javascript-source',
+        'com.netscape.javascript-source',
+        'public.css',
+        'net.daringfireball.markdown'
+      ];
+
+      // Files we want to consider code but that
+      // are unrecognized by file_type
+      var codeFileExtensions = [
+        /.elm$/,
+        /.vue$/,
+        /.jsx$/
+      ]
+
+      var isCode = false;
+
+      codeFileTypes.forEach(function(type) {
+        if ( type === '__FILETYPE__' ) {
+          isCode = true;
         }
       });
+
+      codeFileExtensions.forEach(function(ext) {
+        if ( '__FILENAME__'.match(ext) !== null ) {
+          isCode = true;
+        }
+      });
+
+      if ( isCode ) {
+        $.ajax({
+          url: '__PREVIEWURL__',
+          dataType: 'text',
+          success : function (data) {
+            var preview_block = $(".preview-content-wrap");
+            preview_block.css('text-align', 'left');
+            preview_block.text(data);
+            preview_block.html('<pre>'+preview_block.html()+'</pre>');
+            hljs.highlightBlock(preview_block[0]);
+          }
+        })
+      }
     </script>
     <!-- Syntax Highlighting Stop -->
 
