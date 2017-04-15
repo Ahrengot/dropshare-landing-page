@@ -219,7 +219,7 @@
       </div>
 
       <div class="download">
-        <a href="__PATH__" class="download-btn">
+        <a href="__PATH__" class="download-btn" download="__FILENAME__">
           <div class="download-icon"></div>
           <div class="download-btn-text">Download</div>
           <div class="filesize">(__FILESIZE__)</div>
@@ -233,6 +233,7 @@
       var selectedColor = colors[Math.floor(Math.random() * colors.length)];
       document.querySelector('.download-btn').style.backgroundColor = selectedColor;
 
+      // Swap out timestamp for human readable time diff
       var dateEl = document.getElementById("date");
       var timestamp = parseInt(dateEl.getAttribute('data-timestamp'), 10);
       if ( !isNaN(timestamp) ) {
@@ -246,16 +247,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
     <script type="text/javascript">
       hljs.configure({
-        tabReplace: '  ',
+        tabReplace: "  "
       });
 
       var codeFileTypes = [
-        'public.plain-text',
-        'public.html',
-        'public.javascript-source',
-        'com.netscape.javascript-source',
-        'public.css',
-        'net.daringfireball.markdown'
+        "public.plain-text",
+        "public.html",
+        "public.javascript-source",
+        "com.netscape.javascript-source",
+        "public.css",
+        "net.daringfireball.markdown"
       ];
 
       // Files we want to consider code but that
@@ -268,43 +269,43 @@
         /.elm$/,
         /.vue$/,
         /.jsx$/
-      ]
+      ];
 
       var isCode = false;
 
       codeFileTypes.forEach(function(type) {
-        if ( type === '__FILETYPE__' ) {
+        if (type === "__FILETYPE__") {
           isCode = true;
         }
       });
 
       codeFileExtensions.forEach(function(ext) {
-        if ( '__FILENAME__'.match(ext) !== null ) {
+        if ("__FILENAME__".match(ext) !== null) {
           isCode = true;
         }
       });
 
-      if ( isCode ) {
+      if (isCode) {
         $.ajax({
-          url: '__PREVIEWURL__',
-          dataType: 'text',
-          success : function (data) {
+          url: "__PREVIEWURL__",
+          dataType: "text",
+          success: function(data) {
             var preview_block = $(".preview-content-wrap");
-            preview_block.css('text-align', 'left');
+            preview_block.css("text-align", "left");
             preview_block.text(data);
-            preview_block.html('<pre>'+preview_block.html()+'</pre>');
+            preview_block.html("<pre>" + preview_block.html() + "</pre>");
             hljs.highlightBlock(preview_block[0]);
           }
-        })
-      } else if ( !document.querySelector('.imagePreview') ) {
+        });
+      } else if (!document.querySelector(".imagePreview")) {
         $(".preview-content-wrap").html(
           "<div class='file-preview'>" +
             "<svg><use xlink:href='#file-icon'></use></svg>" +
             "<div class='file-preview-name'>__FILENAME__</div>" +
-          "</div>"
+            "</div>"
         );
 
-        document.querySelectorAll('svg path').forEach(function(path) {
+        document.querySelectorAll("svg path").forEach(function(path) {
           path.style.fill = selectedColor;
         });
 
